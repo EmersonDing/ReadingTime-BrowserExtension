@@ -54,5 +54,11 @@ chrome.tabs.onUpdated.addListener(
 );
 
 function executeContentScript() {
-  chrome.tabs.executeScript(null, {file: "js/content.js", runAt: "document_end"});          
+  chrome.tabs.executeScript(null, {
+    file: "js/content.js", runAt: "document_end"
+  }, () => {
+    if(chrome.runtime.lastError) {
+      // NOOP for runtime error
+    }
+  });
 }
