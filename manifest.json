@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
 
-  "name": "Instant Reading Time",
+  "name": "Instant Reading Time Chinese",
   "description": "Display the time it will take to read the current web page in the browser toolbar.",
   "version": "1.65",
   "options_page": "html/options.html",
