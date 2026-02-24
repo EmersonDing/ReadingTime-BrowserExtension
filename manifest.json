@@ -1,23 +1,23 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
 
   "name": "Instant Reading Time",
   "description": "Display the time it will take to read the current web page in the browser toolbar.",
   "version": "1.65",
   "options_page": "html/options.html",
 
-  "icons": { 
+  "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
-    "128": "icon128.png" 
+    "128": "icon128.png"
   },
 
-  "browser_action": {
+  "action": {
     "default_title": "Estimated time to read the current page (minutes)"
   },
 
   "background": {
-    "scripts": ["js/background.js"]
+    "service_worker": "js/background.js"
   },
 
   "content_scripts": [
@@ -27,12 +27,15 @@
       "js": ["js/content.js"]
     }
   ],
-  
+
   "permissions": [
     "tabs",
     "activeTab",
-    "http://*/*",
-    "https://*/*",
+    "scripting",
     "storage"
+  ],
+
+  "host_permissions": [
+    "<all_urls>"
   ]
 }

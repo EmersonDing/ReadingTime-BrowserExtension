@@ -1,6 +1,6 @@
 "use strict";
 //Canvas is used to change the extension icon on the fly
-var canvas = document.createElement('canvas');
+var canvas = new OffscreenCanvas(19, 19);
 var context = canvas.getContext('2d');
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
@@ -24,7 +24,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     context.fillStyle = request.newBadge.iconColor;
     context.fillText(request.newBadge.timeToRead, 10, 10);
     
-    chrome.browserAction.setIcon({
+    chrome.action.setIcon({
       imageData: context.getImageData(0, 0, 19, 19)
     });
   }
@@ -38,8 +38,8 @@ chrome.tabs.onActivated.addListener(
 );
 
 //Execute script on extension icon clicked
-chrome.browserAction.onClicked.addListener(
-  function(tab) { 
+chrome.action.onClicked.addListener(
+  function(tab) {
      executeContentScript();
   }
 );
@@ -53,12 +53,11 @@ chrome.tabs.onUpdated.addListener(
   }
 );
 
-function executeContentScript() {
-  chrome.tabs.executeScript(null, {
-    file: "js/content.js", runAt: "document_end"
-  }, () => {
-    if(chrome.runtime.lastError) {
-      // NOOP for runtime error
-    }
-  });
+async function executeContentScript() {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (!tab) return;
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: ["js/content.js"]
+  }).catch(() => {});
 }
