@@ -37,13 +37,6 @@ chrome.tabs.onActivated.addListener(
   }
 );
 
-//Execute script on extension icon clicked
-chrome.action.onClicked.addListener(
-  function(tab) {
-     executeContentScript();
-  }
-);
-
 //Optional function can be added if encountering issues with AJAX sites. Warning: Can cause issues when browser is terminated whilst the script is running
 chrome.tabs.onUpdated.addListener(
   function(tabId, changeInfo, tab) {

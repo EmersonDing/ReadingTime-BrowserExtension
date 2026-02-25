@@ -35,3 +35,12 @@ chrome.storage.local.get(null, function (result) {
     message.iconColor = iconColor;
     chrome.runtime.sendMessage({newBadge: message});
 });
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.action === "getWordCount") {
+    sendResponse({
+      wordCount: wordCount,
+      cjkCount: cjkCount
+    });
+  }
+});
